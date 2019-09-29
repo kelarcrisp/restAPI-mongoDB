@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const User = require('../model/User');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const { registerValidation, loginValidation } = require('../validation')
 
 //this has to be async because it takes a second to pull this information fronm the DB
@@ -44,7 +45,12 @@ router.post('/login', async (req, res) => {
     //check if password is correct
     const validPassword = await bcrypt.compare(req.body.password, user.password);
     if (!validPassword) return res.status(400).send("invalid password");
-    res.send('success!')
+
+    //CREATE and assign a token this will take two parameters an id, and a secret
+    const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
+    //this will now send a JWT token as a header
+    res.header('auth-token', token).send(token);
+
 })
 
 module.exports = router;

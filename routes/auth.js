@@ -1,3 +1,4 @@
+//use this router method always, then export module.exports = router, this allows both of these functions to be exported
 const router = require('express').Router();
 const User = require('../model/User');
 const bcrypt = require('bcryptjs');

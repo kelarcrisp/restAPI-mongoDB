@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
-
+//use this method if you are wanting to make certain routes private and then pass in verify as a 2nd parameter to the router.get function that you want to be private
+//const verify = require('./verifytoken) 
 function auth(req, res, next) {
     const token = req.header('auth-token');
     if (!token) return res.status(401).send('access denied');
